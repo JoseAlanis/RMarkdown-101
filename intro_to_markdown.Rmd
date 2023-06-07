@@ -228,4 +228,9 @@ daten <- c(1, 2, 3, 4, 5)
 
 Wenn wir versuchen uns `daten` Anzeigen zu lassen (wie in dem vorherigen R Codeblock), ohne `daten` vorher zu definieren, wird R Markdown die Erstellung des Dokuments stoppen und uns ein Fehler mitteilen.
 
+#### Übung 6
+
+> Versuchen den obigen Codeblock in Ihrer `.Rmd`-Datei einzufügen, ohne vorher `daten` zu definieren. **knitten** Sie das Dokument neu. Was passiert?
+> Definieren Sie nun `daten` bevor Sie auf `daten` zugreifen und **knitten** Sie neu. Was passiert?
+
 ## Wrap-Up
