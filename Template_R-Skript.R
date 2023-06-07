@@ -7,4 +7,3 @@
 # um das Kompilieren einer R Markdown-Datei zu üben,
 # mit den zur Verfügung gestellten Tutorial-Materialien unter: 
 
-# place holders
