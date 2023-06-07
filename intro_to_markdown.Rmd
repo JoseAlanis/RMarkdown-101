@@ -3,10 +3,10 @@ title: "Erste Schritte mit **R Markdown**"
 subtitle: "Reproduzierbare Analyse-Skripts schreiben und bereitstellen"
 author: "José C. García Alanis"
 date: "`r format(Sys.time(), '%d. Juni, %Y')`"
-header-includes:
-    - \usepackage[default]{sourcesanspro}
-    - \usepackage[T1]{fontenc}
-mainfont: SourceSansPro
+#header-includes:
+#    - \usepackage[default]{sourcesanspro}
+#    - \usepackage[T1]{fontenc}
+#mainfont: SourceSansPro
 fontsize: 12pt
 output: pdf_document
 ---
@@ -26,23 +26,22 @@ knitr::opts_chunk$set(echo = TRUE, dev="cairo_pdf")
 
 ## Was ist R Markdown?
 
-**R Markdown** ist eine sehr zugängliche und einfache Methode, R-Skripte zu dokumentieren und reproduzierbar zu machen. Häufig wird als „großer Nachteil“ von R-Skripten genannt, dass man keinen einfachen Text in einem R-Skript aufnehmen kann. Alles, was wir in einem R-Skript „schreiben", muss in der R-Syntax geschrieben sein, sonst läuft das Skript nicht. Text-Erklärungen zum „R-code“ können höchstens als Kommentar eingefügt werden (diese werden von einer Raute `#` vorangegangen).
+**R Markdown** ist eine sehr zugängliche und einfache Methode, R-Skripte zu dokumentieren und reproduzierbar zu machen. Häufig wird als „großer Nachteil“ von R-Skripten genannt, dass man keinen einfachen Text in einem R-Skript aufnehmen kann. Alles, was wir in einem R-Skript „schreiben", muss in der R-Syntax geschrieben sein, sonst läuft das Skript nicht. Text-Erklärungen zum „R-code“ können höchstens als Kommentar eingefügt werden (diesen wird eine Raute `#` vorangestellt).
 
-R Markdown bietet eine einfache Lösung für dieses Problem an.
+R Markdown bietet eine einfache Lösung für dieses Problem.
 
 ## Ist R-Markdown eine (weitere) Programmiersprache?
 
-Nicht ganz. R-Markdown ist ein spezielles Dateiformat und eine Syntax für dieses Dateiformat. Diese Syntax macht das Benutzen von Markdown-Befehlen in R extrem einfach. Im Hintergrund läuft **Markdown**, eine sehr einfache “Markup”-Sprache (ähnlich wie `html`), die Befehle zur Erstellung von Dokumenten aus einer reinen Text-Datei bereitstellt. Wir können Markdown-Dokumente in viele andere Dateitypen wie `.html` oder `.pdf` umwandeln. Dabei können Überschriften, Bilder automatisch generiert und anzuzeigen, während die ursprüngliche R-Datei "unverändert" bleibt und in einer Art formatiert ist, dass sie leicht zu lesen ist. Zum Beispiel, die Datei, die Sie gerade lesen, haben wir mit R-Markdown erstellt. Das R-Buch, was Sie während des R-Tutoriums im ersten Teil des Semesters kennengelernt haben, haben mit R-Markdown erstellt.
+Nicht ganz. R-Markdown ist ein spezielles Dateiformat und eine Syntax für dieses Dateiformat. Diese Syntax macht das Benutzen von Markdown-Befehlen in R extrem einfach. Im Hintergrund läuft **Markdown**, eine sehr einfache “Markup”-Sprache (ähnlich wie `html`), die Befehle zur Erstellung von Dokumenten aus einer reinen Text-Datei bereitstellt. Wir können Markdown-Dokumente in viele andere Dateitypen wie `.html` oder `.pdf` umwandeln. Dabei können Überschriften, Bilder automatisch generiert und anzuzeigen, während die ursprüngliche R-Datei "unverändert" bleibt und in einer Art formatiert ist, dass sie leicht zu lesen ist. Die Datei, die Sie gerade lesen, haben wir z. B. mit R-Markdown erstellt. Das R-Buch, das Sie während des R-Tutoriums im ersten Teil des Semesters kennengelernt haben, haben wir mit R-Markdown erstellt.
 
 Also keine Sorge, sie müssen die keine weitere „Programmiersprache“ lernen.
 Sie müssen Ihre R-Skripte „nur“ in einem anderen Dateiformat (als `.Rmd` Datei) abspeichern und einige wenige Formatierungsregeln einhalten.
 
 ## Warum R-Markdown?
 
-R Markdown ermöglicht uns, R-Skripte unkompliziert zu dokumentieren.
-R Markdown Dokumente können als eine Art "Analyse-Protokoll" für die von uns durchgeführten Analysen benutzt werden. Forschung ist nur dann wirklich reproduzierbar, wenn andere Forscher:innen leicht verstehen können, was wir in unseren Analysen getan haben. Ohne Analyse-Protokollen und Dokumentation kann niemand wirklich verstehen, warum und wie genau wir manche Analysen durchgeführt haben. Manchmal ist es auch für uns selbst nur teilweise nachvollziehbar, warum wir frühere Analysen so durchgeführt haben, wie wir sie durchgeführt haben. Es ist deswegen hilfreich, ein R Markdown-Dokument als Anhang zu einer Arbeit (z.B. Masterarbeit oder Projektarbeit) zu erstellen. Wir können dann das dieses Dokument auf ein Online-Repositorium (z.B. das Open-Science-Framework) hochladen, oder es einfach als persönliche Aufzeichnung behalten. Wenn wir zu einem späteren Zeitpunkt auf unseren Code blicken, können wir dann leicht nachvollziehen, was wir getan haben und warum wir das so getan haben.
+R Markdown ermöglicht es uns, R-Skripte unkompliziert zu dokumentieren.R Markdown Dokumente können als eine Art "Analyse-Protokoll" für die von uns durchgeführten Analysen benutzt werden. Forschung ist nur dann wirklich reproduzierbar, wenn andere Forscher:innen leicht verstehen können, was wir in unseren Analysen getan haben. Ohne Analyse-Protokolle und Dokumentation kann niemand wirklich nachvollziehen, warum und wie genau wir manche Analysen durchgeführt haben. Manchmal ist es auch für uns selbst nur teilweise nachvollziehbar, warum wir frühere Analysen so durchgeführt haben, wie wir sie durchgeführt haben. Es ist deswegen hilfreich, ein R Markdown-Dokument als Anhang zu einer Arbeit (z.B. Masterarbeit oder Projektarbeit) zu erstellen. Wir können dieses Dokument dann auf ein Online-Repositorium (z.B. das Open-Science-Framework) hochladen, oder es einfach als persönliche Aufzeichnung behalten. Wenn wir zu einem späteren Zeitpunkt auf unseren Code blicken, können wir dann leicht nachvollziehen, was wir getan haben und warum wir das so getan haben.
 
-Der Vorteil von R Markdown Dokumenten ist, dass sie sowohl Code (z.B. R-Code, was wir benutzt haben, um eine Grafik zu generieren) und das Resultat von eben diesem Code (z.B. die Grafik, die wir damals erstellt haben) enthalten. Zusätzlich können wir Text-Erklärungen einfügen, und zwar so, wie wir das bei einem Word-Dokument machen würden. Einfach als (reiner) Text.
+Der Vorteil von R Markdown Dokumenten ist, dass sie sowohl Code (z.B. R-Code, den wir benutzt haben, um eine Grafik zu generieren) und das Resultat von eben diesem Code (z.B. die Grafik, die wir damals erstellt haben) enthalten. Zusätzlich können wir Text-Erklärungen einfügen, und zwar so, wie wir das bei einem Word-Dokument machen würden. Einfach als (reiner) Text.
 
 R Markdown Dokumente sind also ein bisschen wie ein Notizbuch. Dort stehen die Ziele unserer Analysen, gefolgt von den Schritten, die wir gefolgt sind, um diese Ziele zu erreichen, die Methoden, die wir angewendet haben und schließlich die Ergebnisse, die wir mit diesen Analysen erzielen konnten.
 
@@ -62,27 +61,27 @@ install.packages("rmarkdown")
 >
 > 
 > 1. Öffnen Sie R-Studio (falls Sie dies nicht ohnehin schon getan haben).
-> 2. Gehen Sie nun oben links auf das „Neue Datei Symbol” (ein weises Viereck mit einem grün-weißen Plus-Zeichen).
-> 3. Dann wählen Sie „R Markdown …“
+> 2. Gehen Sie nun oben links auf das „Neue Datei Symbol” (ein weißes Viereck mit einem grün-weißen Plus-Zeichen).
+> 3. Dann wählen Sie „R Markdown…“
 > - Alternativ könne sie das Ganze über das Datei-Fenster oben Links erledigen (Datei -> Neues Dokument -> R Markdown…)
 > 
-> Sie werden merken, dass R-Studio ein keines Dialog-Fenster öffnet. Dort können Sie ein Name für das R Markdown Dokument und andere Einstellungen festlegen.
+> Sie werden merken, dass R-Studio ein kleines Dialog-Fenster öffnet. Dort können Sie einen Name für das R Markdown Dokument und andere Einstellungen festlegen.
 > 
-> 1. Geben Sie unter Titel **Einführung in R Markdown**
-> 2. Geben Sie unter Autor ihr Name an
+> 1. Geben Sie unter Titel **Einführung in R Markdown** ein
+> 2. Geben Sie unter Autor Ihren Name an
 > 3. Wählen Sie als Output-Format: **HTML**
 
-Für jetzt konzentrieren wir uns auf ein `.html`-Dokument, das später leicht in andere Dateitypen umgewandelt werden kann.
+Für den Moment konzentrieren wir uns auf ein `.html`-Dokument, das später leicht in andere Dateitypen umgewandelt werden kann.
 
 R-Studio erstellt einen neue `.Rmd` Datei. Diese sollte automatisch aufgegangen sein. Die neu erstellte `.Rmd`-Datei enthält Beispiele und Code. Wir möchten allerdings unser eigenes R Markdown-Skript erstellen. Löschen also erst ein mal, was in der neu erstellten `.Rmd`-Datei enthalten ist.
 
 Wir erstellen jetzt in gewisser Hinsicht eine Master R Markdown Datei. Wenn Sie eigene R-Skripte haben, die Sie in ein R Markdown-Dokument umwandeln möchten, können Sie diese Datei als Beispiel verwenden!
 
-## Das `YAML`-Header
+## Der `YAML`-Header
 
-Am Anfang jedes R Markdown-Skripts steht ein sogenannter **YAML-Header**. Dieser wird durch **`---`** eingeschlossener (drei Bindestriche oben und unten). Standardmäßig enthält dieser einen Titel, Autor, Datum und den Dateityp. Der Dateityp ist das Format, in dem unser R Markdown Skript am Ende haben wollen. Es stehe uns viele verschiedenen Optionen für das YAML-Header stehen zur Verfügung. Heute werden wir uns mit dem absoluten Minimum beschäftigen.
+Am Anfang jedes R Markdown-Skripts steht ein sogenannter **YAML-Header**. Dieser wird von **`---`** eingeschlossen (drei Bindestriche oben und unten). Standardmäßig enthält dieser einen Titel, Autor, Datum und den Dateityp. Der Dateityp ist das Format, in dem unser R Markdown Skript am Ende haben wollen. Es stehen uns viele verschiedenen Optionen für den YAML-Header zur Verfügung. Heute werden wir uns mit dem absoluten Minimum beschäftigen.
 
-Hier ist ein Beispiel für ein YAML-Header. Sie können dieses Beispiel auch für zukünftige Dateien benutzen.
+Hier ist ein Beispiel für einen YAML-Header. Sie können dieses Beispiel auch für zukünftige Dateien benutzen.
 
 ```{markdown}
 ---
@@ -103,7 +102,7 @@ Standardmäßig werden der Titel, Autor, Datum und Ausgabeformat am Anfang Ihres
 
 Jetzt, da wir unseren ersten Inhalt haben, können wir die `.Rmd`-Datei testen, indem wir sie zu `.html` kompilieren (auch "rendern" genannt). Um die `.Rmd`-Datei in ein `.html`-Dokument zu konvertieren, klicken wir auf den `Knit`-Knopf in der Taskleiste (dieses sieht so aus: ![](RStudio_knit_icon.png){width=20, height=20} **knit**). (`knit` *engl.* für Stricken)
 
-R-Studio öffnet dann ein separates Vorschaufenster, um die Ausgabe der `.Rmd`-Datei anzuzeigen. Wenn Sie möchten, dass die Ausgabe im Viewer-Fenster in R-Studio angezeigt wird (demselben Fenster, in dem Sie Grafiken sehen würden), wählen Sie "Vorschau in IDE Fenster" aus dem Dropdown-Menü, das erscheint, wenn Sie auf Einstellungen-Zahnradsymbols neben dem knit-Button klinken.
+R-Studio öffnet dann ein separates Vorschaufenster, um die Ausgabe der `.Rmd`-Datei anzuzeigen. Wenn Sie möchten, dass die Ausgabe im Viewer-Fenster in R-Studio angezeigt wird (demselben Fenster, in dem Sie Grafiken sehen würden), wählen Sie "Vorschau in IDE Fenster" aus dem Dropdown-Menü, das erscheint, wenn Sie auf Einstellungen-Zahnradsymbols neben dem knit-Button klicken.
 
 ## Markdown Syntax
 
@@ -117,7 +116,7 @@ Fettgedruckter Text kann folgendermaßen geschrieben werden:
 **fettgedruckter Text**
 ```
 
-Wenn etwas Text also durch `*`-Zeichen eingeschlossen wird, wird alles, was sich innerhalb der `*`-Zeichen befindet **fett**
+Wenn Text also durch `*`-Zeichen eingeschlossen wird, wird alles, was sich innerhalb der `*`-Zeichen befindet **fett**
 gedruckt.
 
 Die obige Schreibweise gibt folgendes Resultat:
@@ -145,21 +144,21 @@ wird in einem R Markdown Dokument zu:
 
 `code`
 
-(die Schrift hat sich etwas geändert).
+(die Schriftart hat sich geändert).
 
-Titeln und Subtiteln stellen eine weitere Besonderheit dar. Wir können die Größe der Titel-Schrift durch die Anzahl an `#`-Symbolen, die den Text vorangehen, kontrollieren.
+Titel und Untertitel stellen eine weitere Besonderheit dar. Wir können die Größe der Titelschrift durch die Anzahl an `#`-Symbole, die den Text vorangehen, kontrollieren.
 
 Die folgende Schreibweise 
 
 ```{markdown}
 # Titel
 
-## Subtitel
+## Untertitel
 
-### Sub-Subtitel
+### Unter-Untertitel
 ```
 
-wird beim *knitten* werden zu:
+wird beim *knitten* zu:
 
 # Titel
 
@@ -171,7 +170,7 @@ Bisher haben wir das `#`-Symbol in R-Skripten dafür benutzt Kommentare einzufü
 
 ### Übung 3
 
-> Kopieren Sie nun den folgenden Text und fügen Sie ihn in der von Ihnen erstellten R Markdown Datei. Fügen Sie den Text unterhalb von YAML-Header.
+> Kopieren Sie nun den folgenden Text und fügen Sie ihn in der von Ihnen erstellten R Markdown Datei ein. Fügen Sie den Text unterhalb des YAML-Headers ein.
 > **knitten** Sie anschließend das Dokument neu.
 
 ```{markdown}
@@ -185,7 +184,7 @@ Unter dem YAML-Header befindet sich also der Bereich, in dem wir schreiben könn
 ## R-Code in R Markdown Dateien einfügen
 
 Ein Markdown Dokument kann ebenfalls R-Code enthalten, das beim **knitten** „ausgeführt“ werden soll. Das heißt, dass R im Hintergrund die Operationen durchführen wird, und dann im „geknitteten“ Dokument das Resultat schreiben wird.
-Codeblöcke in einem `.Rmd`-Dokument werden von drei rückwärtsgewandten Apostrophen ``` (Grave-Akzenten) eingeschlossen sein. Diese sind als Codeblöcke bekannt und sehen so aus:
+Codeblöcke in einem `.Rmd`-Dokument werden von drei rückwärtsgewandten Apostrophen ``` (Grave-Akzenten) eingeschlossen. Diese sind als Codeblöcke bekannt und sehen so aus:
 
 ````{markdown}
 ```{r}
@@ -201,15 +200,17 @@ Innerhalb der geschweiften Klammern befindet sich ein Bereich, in dem Sie Regeln
 > Kopieren Sie das obige Codeblock und fügen Sie es in Ihrer `.Rmd`-Datei ein.
 > **knitten** die Datei neu.
 
-Sie können neue Codeblöcke auch mit diesem kleinen Button in R-Studio.
+Sie können neue Codeblöcke auch mit diesem kleinen Button
 
 ![](codeblock.png)
+
+in R-Studio einfügen.
 
 #### Übung 5
 
 **Mehr Codeblöcke**
 
-Es ist wichtig zu bedenken, dass wenn wir eine R Markdown Datei erstellen, in der wir Code ausführen möchten, der sich auf ein Objekt bezieht, zum Beispiel:
+Wenn wir eine R Markdown Datei erstellen, in der wir Code ausführen möchten, der sich auf ein Objekt bezieht, zum Beispiel:
 
 ````{markdown}
 ```{r}
@@ -217,7 +218,7 @@ daten
 ```
 ````
 
-müssen wir Anweisungen einfügen, die R sagen, was das Objekt `daten` ist. Ähnlich wie wir das in einem normalen R-Skript tun würden. 
+ist es wichtig zu bedenken, Anweisungen einzufügen, die R sagen, was das Objekt `daten` ist. Ähnlich wie wir das in einem normalen R-Skript tun würden. 
 
 Zum Beispiel:
 
