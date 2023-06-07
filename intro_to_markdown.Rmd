@@ -68,7 +68,7 @@ install.packages("rmarkdown")
 > 
 > Sie werden merken, dass R-Studio ein keines Dialog-Fenster öffnet. Dort können Sie ein Name für das R Markdown Dokument und andere Einstellungen festlegen.
 > 
-> 1. Geben Sie unter Titel **rmarkdown-101**
+> 1. Geben Sie unter Titel **Einführung in R Markdown**
 > 2. Geben Sie unter Autor ihr Name an
 > 3. Wählen Sie als Output-Format: **HTML**
 
@@ -99,7 +99,7 @@ Standardmäßig werden der Titel, Autor, Datum und Ausgabeformat am Anfang Ihres
 
 > Kopieren Sie den oberen `YAML-Header`, fügen Sie diesen in der von Ihnen erstellten `.Rmd`-Datei ein und bearbeiten Sie ihn.
 > Geben Sie Titel, Autor und Datum ein.
-> Das Argment `output: html_document` kann so bleiben.
+> Das Argument `output: html_document` kann so bleiben.
 
 Jetzt, da wir unseren ersten Inhalt haben, können wir die `.Rmd`-Datei testen, indem wir sie zu `.html` kompilieren (auch "rendern" genannt). Um die `.Rmd`-Datei in ein `.html`-Dokument zu konvertieren, klicken wir auf den `Knit`-Knopf in der Taskleiste (dieses sieht so aus: ![](RStudio_knit_icon.png){width=20, height=20} **knit**). (`knit` *engl.* für Stricken)
 
@@ -234,6 +234,23 @@ Wenn wir versuchen uns `daten` Anzeigen zu lassen (wie in dem vorherigen R Codeb
 > Versuchen den obigen Codeblock in Ihrer `.Rmd`-Datei einzufügen, ohne vorher `daten` zu definieren. **knitten** Sie das Dokument neu. Was passiert?
 > Definieren Sie nun `daten` bevor Sie auf `daten` zugreifen und **knitten** Sie neu. Was passiert?
 
+\newpage
+
+## Eine letzte Sache
+
+Anstatt eine `.html`-Datei, können Sie mit R Markdown auch eine `.pdf`-Datei ertellen.
+Das `output`-Format des R Markdown Dokuments können Sie selbst mit dem Argument `output: html_document` oder `output: pdf_document` wählen (im YAML-Header).
+Um das Erstellen von `.pdf`-Dokumenten zur ermöglichen müssen Sie allerdings eine Kleinigkeit in R anpassen.
+R-Studio verwendet ein anderes Dokument-Kompilierungsprogramm namens LaTeX, um `.pdf`-Dokumente zu erstellen.
+
+Der einfachste Weg, LaTeX innerhalb von R-Studio zu verwenden, besteht darin, die TinyTex-Distribution zu installieren.
+Starten Sie zuerst Ihre R-Sitzung neu (Sitzung -> R neu starten), und führen Sie dann diese Zeile in der R Konsole aus:
+
+```{r, eval = FALSE}
+install.packages("tinytex")
+tinytex::install_tinytex()
+```
+
 ## Wrap-Up
 
 Nun kennen Sie die R Markdown Syntax. Es gibt prinzipiell viel mehr, was man zu Markdown erzählen könnte.
@@ -245,6 +262,6 @@ Sollten Sie mehr über R Markdown lernen wollen, lohnt die offizielle Einleitung
 
 Ansonsten können Sie sich die R Markdown "cheatsheet", die offiziell von R Studio bereitgestellt wird:
 
-- R Markdown cheatsheet https://github.com/rstudio/cheatsheets/raw/main/rmarkdown-2.0.pdf
+- R Markdown cheatsheet: https://github.com/rstudio/cheatsheets/raw/main/rmarkdown-2.0.pdf
 
 Viel Erfolg beim Coden! :)

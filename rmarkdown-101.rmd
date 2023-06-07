@@ -1,5 +1,5 @@
 ---
-title:  "Einführung in Markdown"
+title:  "Einführung in R Markdown"
 author: José
 date:   7. Juni 2023
 output: html_document
