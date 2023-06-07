@@ -2,16 +2,16 @@
 title: "Erste Schritte mit **R Markdown**"
 subtitle: "Reproduzierbare Analyse-Skripts schreiben und bereitstellen"
 author: "José C. García Alanis"
-date: "`r format(Sys.time(), '%d. %B, %Y')`"
-# header-includes:
-#    - \usepackage[default]{sourcesanspro}
-#    - \usepackage[T1]{fontenc}
-# mainfont: SourceSansPro
+date: "`r format(Sys.time(), '%d. Juni, %Y')`"
+header-includes:
+    - \usepackage[default]{sourcesanspro}
+    - \usepackage[T1]{fontenc}
+mainfont: SourceSansPro
 fontsize: 12pt
 output: pdf_document
 ---
 
-```{r echo = FALSE, eval = FALSE}
+```{r echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE, dev="cairo_pdf")
 ```
 
@@ -34,8 +34,8 @@ R Markdown bietet eine einfache Lösung für dieses Problem an.
 
 Nicht ganz. R-Markdown ist ein spezielles Dateiformat und eine Syntax für dieses Dateiformat. Diese Syntax macht das Benutzen von Markdown-Befehlen in R extrem einfach. Im Hintergrund läuft **Markdown**, eine sehr einfache “Markup”-Sprache (ähnlich wie `html`), die Befehle zur Erstellung von Dokumenten aus einer reinen Text-Datei bereitstellt. Wir können Markdown-Dokumente in viele andere Dateitypen wie `.html` oder `.pdf` umwandeln. Dabei können Überschriften, Bilder automatisch generiert und anzuzeigen, während die ursprüngliche R-Datei "unverändert" bleibt und in einer Art formatiert ist, dass sie leicht zu lesen ist. Zum Beispiel, die Datei, die Sie gerade lesen, haben wir mit R-Markdown erstellt. Das R-Buch, was Sie während des R-Tutoriums im ersten Teil des Semesters kennengelernt haben, haben mit R-Markdown erstellt.
 
-Also keine Sorge, sie müssen die keine weitere “Programmiersprache” lernen.
-Sie müssen Ihre R-Skripte “nur” in einem anderen Dateiformat (als `.Rmd` Datei) abspeichern und einige wenige Formatierungsregeln einhalten.
+Also keine Sorge, sie müssen die keine weitere „Programmiersprache“ lernen.
+Sie müssen Ihre R-Skripte „nur“ in einem anderen Dateiformat (als `.Rmd` Datei) abspeichern und einige wenige Formatierungsregeln einhalten.
 
 ## Warum R-Markdown?
 
@@ -50,7 +50,7 @@ R Markdown Dokumente sind also ein bisschen wie ein Notizbuch. Dort stehen die Z
 
 Um sicherzugehen, dass `rmarkdown` bei Ihnen installiert ist, benutzen Sie den folgenden R-Befehl, um `rmarkdown` jetzt zu installieren.
 
-```{r eval=FALSE}
+```{r eval = FALSE}
 install.packages("rmarkdown")
 ```
 
@@ -59,13 +59,14 @@ install.packages("rmarkdown")
 #### Übung 1
 
 > Wenn wir eine R-Markdown-Datei (`.Rmd`) mit R-Studio erstellen möchten, müssen wir dies über das Datei-Fenster tun.
+>
 > 
 > 1. Öffnen Sie R-Studio (falls Sie dies nicht ohnehin schon getan haben).
-> 2. Gehen Sie nun oben links auf das “Neue Datei Symbol” (ein weises Viereck mit einem grün-weißen Plus-Zeichen).
-> 3. Dann wählen Sie “R Markdown…”
+> 2. Gehen Sie nun oben links auf das „Neue Datei Symbol” (ein weises Viereck mit einem grün-weißen Plus-Zeichen).
+> 3. Dann wählen Sie „R Markdown …“
 > - Alternativ könne sie das Ganze über das Datei-Fenster oben Links erledigen (Datei -> Neues Dokument -> R Markdown…)
 > 
-> Sie werden merken, dass R-Studio ein keines Dialog-Fenster öffnet. Dort können Sie ein Name für das R Markdown Dokument  und andere Einstellungen festlegen.
+> Sie werden merken, dass R-Studio ein keines Dialog-Fenster öffnet. Dort können Sie ein Name für das R Markdown Dokument und andere Einstellungen festlegen.
 > 
 > 1. Geben Sie unter Titel **rmarkdown-101**
 > 2. Geben Sie unter Autor ihr Name an
@@ -83,7 +84,7 @@ Am Anfang jedes R Markdown-Skripts steht ein sogenannter **YAML-Header**. Dieser
 
 Hier ist ein Beispiel für ein YAML-Header. Sie können dieses Beispiel auch für zukünftige Dateien benutzen.
 
-```{yml eval = FALSE}
+```{markdown}
 ---
 title:  "Einführung in Markdown"
 author: José
@@ -110,13 +111,13 @@ Sie können ganz normal in dem R Markdown Dokument schreiben. Der Text wird dann
 
 ### Formatierungsregeln
 
-Fettgedruckter Text kann folgendermaßen geschierben werden: 
+Fettgedruckter Text kann folgendermaßen geschrieben werden:
 
-```{md}
+```{markdown}
 **fettgedruckter Text**
 ```
 
-Wenn etwas Text also durch `*`-Zeichen eingeschlossen wird, wird alles was sich innerhalb der `*`-Zeichen befindet **fett**
+Wenn etwas Text also durch `*`-Zeichen eingeschlossen wird, wird alles, was sich innerhalb der `*`-Zeichen befindet **fett**
 gedruckt.
 
 Die obige Schreibweise gibt folgendes Resultat:
@@ -125,7 +126,7 @@ Die obige Schreibweise gibt folgendes Resultat:
 
 Ähnlich verhält es sich mit *kursiver Text*
 
-```{md}
+```{markdown}
 *kursiv*
 ```
 
@@ -133,10 +134,10 @@ wird zu:
 
 *kursiv*
 
-Wenn wir etwas als Code (z.B. R-Code) ausweisen wollen, könne wir den Text durch Grave-Akzente ( ` ) umschließen, wie hier:
+Wenn wir etwas als Code (z.B. R-Code) ausweisen wollen, können wir den Text durch Grave-Akzente ( ` ) umschließen, wie hier:
 
 
-```{md}
+```{markdown}
 `code`
 ```
 
@@ -150,7 +151,7 @@ Titeln und Subtiteln stellen eine weitere Besonderheit dar. Wir können die Grö
 
 Die folgende Schreibweise 
 
-```{md}
+```{markdown}
 # Titel
 
 ## Subtitel
@@ -171,23 +172,23 @@ Bisher haben wir das `#`-Symbol in R-Skripten dafür benutzt Kommentare einzufü
 ### Übung 3
 
 > Kopieren Sie nun den folgenden Text und fügen Sie ihn in der von Ihnen erstellten R Markdown Datei. Fügen Sie den Text unterhalb von YAML-Header.
-> **knitten** Sie anschlißend das Dokument neu.
+> **knitten** Sie anschließend das Dokument neu.
 
-```{md}
+```{markdown}
 # Erste Schritte mit R Markdown
 
-Markdown ist **sehr einfach** 😊
+Markdown ist **sehr einfach** :)
 ```
 
 Unter dem YAML-Header befindet sich also der Bereich, in dem wir schreiben können, was wir wollen. Text kann mit der obigen Syntax formatiert werden. 
 
 ## R-Code in R Markdown Dateien einfügen
 
-Ein Markdown Dokument kann ebenfalls R-Code enthalten, das beim **knitten** “ausgeführt” werden soll. Das heißt, dass R im Hintergrund die Operationen durchführen  wird, und dann im “geknitteten” Dokument das Resultat schreiben wird.
-Codeblöcke in einem `.Rmd`-Dokument werden von drei rückwärtsgewandten Apostrophen ``` (Grave-Akzenten!) eingeschlossen sein. Diese sind als Codeblöcke bekannt und sehen so aus:
+Ein Markdown Dokument kann ebenfalls R-Code enthalten, das beim **knitten** „ausgeführt“ werden soll. Das heißt, dass R im Hintergrund die Operationen durchführen wird, und dann im „geknitteten“ Dokument das Resultat schreiben wird.
+Codeblöcke in einem `.Rmd`-Dokument werden von drei rückwärtsgewandten Apostrophen ``` (Grave-Akzenten) eingeschlossen sein. Diese sind als Codeblöcke bekannt und sehen so aus:
 
-````{md}
-```{r, eval = FALSE}
+````{markdown}
+```{r}
 norm <- rnorm(100, mean = 0, sd = 1)
 plot(density(norm))
 ```
@@ -200,18 +201,18 @@ Innerhalb der geschweiften Klammern befindet sich ein Bereich, in dem Sie Regeln
 > Kopieren Sie das obige Codeblock und fügen Sie es in Ihrer `.Rmd`-Datei ein.
 > **knitten** die Datei neu.
 
-Sie können neue Codeblöcke auch mit dieser kleinen Button in R-Studio.
+Sie können neue Codeblöcke auch mit diesem kleinen Button in R-Studio.
 
 ![](codeblock.png)
 
 #### Übung 5
 
-##### Mehr Codeblöcke
+**Mehr Codeblöcke**
 
 Es ist wichtig zu bedenken, dass wenn wir eine R Markdown Datei erstellen, in der wir Code ausführen möchten, der sich auf ein Objekt bezieht, zum Beispiel:
 
-````{md}
-```{r, eval = FALSE}
+````{markdown}
+```{r}
 daten
 ```
 ````
@@ -220,8 +221,8 @@ müssen wir Anweisungen einfügen, die R sagen, was das Objekt `daten` ist. Ähn
 
 Zum Beispiel:
 
-````{md}
-```{r, eval = FALSE}
+````{markdown}
+```{r}
 daten <- c(1, 2, 3, 4, 5)
 ```
 ````
@@ -234,3 +235,16 @@ Wenn wir versuchen uns `daten` Anzeigen zu lassen (wie in dem vorherigen R Codeb
 > Definieren Sie nun `daten` bevor Sie auf `daten` zugreifen und **knitten** Sie neu. Was passiert?
 
 ## Wrap-Up
+
+Nun kennen Sie die R Markdown Syntax. Es gibt prinzipiell viel mehr, was man zu Markdown erzählen könnte.
+Das was wir heute geübt haben sind die "basics".
+
+Sollten Sie mehr über R Markdown lernen wollen, lohnt die offizielle Einleitung auf der Website vom R-Studio.
+
+- Hier ist der Link: https://rmarkdown.rstudio.com/lesson-1.html
+
+Ansonsten können Sie sich die R Markdown "cheatsheet", die offiziell von R Studio bereitgestellt wird:
+
+- R Markdown cheatsheet https://github.com/rstudio/cheatsheets/raw/main/rmarkdown-2.0.pdf
+
+Viel Erfolg beim Coden! :)
