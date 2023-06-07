@@ -1,12 +1,12 @@
 ---
 title: "Erste Schritte mit **R Markdown**"
 subtitle: "Reproduzierbare Analyse-Skripts schreiben und bereitstellen"
-author: "José C. García Alanis"
+author: "José C. García Alanis & Mareike Hülsemann"
 date: "`r format(Sys.time(), '%d. Juni, %Y')`"
-#header-includes:
-#    - \usepackage[default]{sourcesanspro}
-#    - \usepackage[T1]{fontenc}
-#mainfont: SourceSansPro
+header-includes:
+    - \usepackage[default]{sourcesanspro}
+    - \usepackage[T1]{fontenc}
+mainfont: SourceSansPro
 fontsize: 12pt
 output: pdf_document
 ---
@@ -32,7 +32,7 @@ R Markdown bietet eine einfache Lösung für dieses Problem.
 
 ## Ist R-Markdown eine (weitere) Programmiersprache?
 
-Nicht ganz. R-Markdown ist ein spezielles Dateiformat und eine Syntax für dieses Dateiformat. Diese Syntax macht das Benutzen von Markdown-Befehlen in R extrem einfach. Im Hintergrund läuft **Markdown**, eine sehr einfache “Markup”-Sprache (ähnlich wie `html`), die Befehle zur Erstellung von Dokumenten aus einer reinen Text-Datei bereitstellt. Wir können Markdown-Dokumente in viele andere Dateitypen wie `.html` oder `.pdf` umwandeln. Dabei können Überschriften, Bilder automatisch generiert und anzuzeigen, während die ursprüngliche R-Datei "unverändert" bleibt und in einer Art formatiert ist, dass sie leicht zu lesen ist. Die Datei, die Sie gerade lesen, haben wir z. B. mit R-Markdown erstellt. Das R-Buch, das Sie während des R-Tutoriums im ersten Teil des Semesters kennengelernt haben, haben wir mit R-Markdown erstellt.
+Nicht ganz. R-Markdown ist ein spezielles Dateiformat und eine Syntax für dieses Dateiformat. Diese Syntax macht das Benutzen von Markdown-Befehlen in R extrem einfach. Im Hintergrund läuft **Markdown**, eine sehr einfache “Markup”-Sprache (ähnlich wie `html`), die Befehle zur Erstellung von Dokumenten aus einer reinen Text-Datei bereitstellt. Wir können Markdown-Dokumente in viele andere Dateitypen wie `.html` oder `.pdf` umwandeln. Dabei werden Überschriften, Bilder, usw. automatisch generiert und angezeigt, während die ursprüngliche R-Datei "unverändert" bleibt. Die R-Datei ist einfach in einer Art formatiert, dass sie leicht zu lesen ist. Die Datei, die Sie gerade lesen, haben wir z. B. mit R-Markdown erstellt. Das R-Buch, das Sie während des R-Tutoriums im ersten Teil des Semesters kennengelernt haben, haben wir mit R-Markdown erstellt.
 
 Also keine Sorge, sie müssen die keine weitere „Programmiersprache“ lernen.
 Sie müssen Ihre R-Skripte „nur“ in einem anderen Dateiformat (als `.Rmd` Datei) abspeichern und einige wenige Formatierungsregeln einhalten.
