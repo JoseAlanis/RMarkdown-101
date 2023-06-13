@@ -1,6 +1,5 @@
 ---
-title: "Datentransformation"
-subtitle: "Fortgeschrittene `dplyr`-Funktionen"
+title: "Fortgeschrittene Datentransformation"
 author: "José C. García Alanis & Mareike Hülsemann"
 date: "`r format(Sys.time(), '%d. Juni, %Y')`"
 header-includes:
@@ -51,7 +50,7 @@ Wir sehen, dass wir mit der Kurzschreibweise dasselbe Ergebnis erzielen. Wir mü
 3. Das dritte Argument gibt an, was passiert wenn die Bedingung *nicht* zutrifft.
 
 
-#### Übung
+#### Übung 1
 Überlegen Sie sich ein sinnvolles Beispiel für die Datenauswertung im psychologischen Kontext, bei der Sie eine If-Else-Abfrage benötigen und schreiben Sie (Pseudo-) Code für dieses Beispiel. Schreiben Sie dabei sowohl Code für die klassische Variante als auch für die `ifelse`-Funktion.
 
 ## `case_when`-Funktion
@@ -81,8 +80,37 @@ depressionen <- depressionen %>%
 head(depressionen)
 ```
 
-#### Übung
+#### Übung 2
 Schreiben Sie nun Ihr Beispiel aus der vorangegangenen Übung unter Verwendung der `case_when`-Funktion um.
+
+#### Übung 3
+Nutzen Sie die Funktion `case_when` und den Piping-Operator um eine neue Spalte im Beispieldatensatz `gedaechtnis` zu erstellen. Diese soll die kognitive Leistungsfähigkeit einer jeden Person in Abhängigkeit von ihrem Alter kategorisieren. Dabei gilt
+
+- eine kognitive Leistung unter 10 Punkten bei Personen bis zu 20 Jahren als schlecht,
+- eine kognitive Leistung ab 10 Punkten bei Personen bis zu 20 Jahren als gut,
+- eine kognitive Leistung unter 8 Punkten bei Personen zwischen 20 und 40 Jahren als schlecht,
+- eine kognitive Leistung ab 8 Punkten bei Personen zwischen 20 und 40 Jahren als gut,
+- eine kognitive Leistung unter 5 Punkten bei Personen ab 40 Jahren als schlecht und
+- eine kognitive Leistung ab 5 Punkten bei Personen ab 40 Jahren als gut.
+
+```{r}
+gedaetnis <- data.frame(id = 1:10,
+                        alter = c(19,48,33,39,20,38,40,25,47,50),
+                        leistung = c(12,15,7,2,6,13,7,4,13,8))
+```
+
+```{r, echo=FALSE}
+gedaetnis <- gedaetnis %>%
+  mutate(faehigkeit = case_when(
+    alter <= 20 & leistung < 10 ~ "schlecht",
+    alter <= 20 & leistung >= 10 ~ "gut",
+    alter > 20 & alter < 40 & leistung < 8 ~ "schlecht",
+    alter > 20 & alter < 40 & leistung >= 8 ~ "gut",
+    alter >= 40 & leistung < 5 ~ "schlecht",
+    alter >= 40 & leistung >= 5 ~ "gut")
+    )
+```
+
 
 
 # Transformation zwischen Long- und Wide-Format
@@ -154,10 +182,10 @@ ultralang
 Unser neuer Datensatz `ultralang` hat nur noch 4 Variablen (im Gegensatz zu den ursprünglichen 8). Es gibt weiterhin die Variablen `id` und `wohnort` und die neuen Variablen `varname` und `wert`. Unsere ursprünglichen Variablen `id` und `wohnort` sind nicht messwiderholt und nehmen nun im neuen Datensatz nicht mehr nur eine Zeile ein, sondern werden über mehrere Zeilen wiederholt. Wenn wir uns die Daten anschauen, sehen wir, dass die erste Person nun sechs Zeilen erhält und die Informationen darin identisch sind. In der dritten Spalte stehen jetzt die ursprünglichen Spaltennamen unserer abhängigen Variablen. Die Werte einer Versuchsperson für Neurotizismus und Extraversion stehen nun nicht mehr in einer Zeile und sechs Spalten, sondern in sechs Zeilen und einer Spalte, die den Namen `wert` trägt. Wir haben nun also eine Spalte, die die Werte für zwei verschiedenen Variablen (`extra` und `neuro`) zu drei Messzeitpunkten enthält. 
 
 
-#### Übung 1
+#### Übung 4
 Was passiert wenn Sie die Variable `wohnort` nicht ausschließen?
 
-#### Übung 2
+#### Übung 5
 Was passiert wenn Sie `names_to = "Spaltenbenennung"` anstatt des ursprünglichen Codes nutzen?
 
 
@@ -221,7 +249,7 @@ Das Argument `values_from` kann entweder alle messwiederholten Variablen enthalt
 Wir wollen Die Datentransformation zwischen Wide- und Long-Format nun üben.
 
 
-#### Übung 3
+#### Übung 6
 Transformieren Sie den folgenden Datensatz in das Long-Format. Erstellen Sie dafür zwei neue Spalten mit den Namen `monat` und `index`). Die Werte sollen in die Spalte `temp` geschrieben werden. Macht es einen Unterschied, ob Sie das Argument  `names_sep = "_"` oder `names_sep = "."` benutzen? 
 
 
@@ -245,7 +273,7 @@ df_long <- df_wide %>%
 df_long
 ```
 
-#### Übung 4
+#### Übung 7
 Transformieren Sie den Datensatz `therapy.txt` in das Wide-Format. Beachten Sie, dass dieser Datensatz Tabstoppgetrennt abgespeichert ist. Finden Sie selbst heraus, welche Variablen dieser Datensatz enthält und ob diese messwiederholt sind oder nicht.
 
 ```{r, echo=FALSE, results='hide', error=FALSE, warning=FALSE, message=FALSE}
@@ -256,7 +284,7 @@ therapy_wide <- therapy %>%
               values_from = value)
 ```
 
-#### Übung 5 
+#### Übung 8
 Transformieren Sie den Datensatz `reakionzeiten_genested.csv` in das Long-Format. Gehen Sie dabei Schritt für Schritt vor, so wie es in diesem Dokument erklärt wurde. In diesem Datensatz finden Sie simulierte Reaktionszeiten für den Attentional Network Test. Dieser erfasst unter anderem die Leistung derAufmerksamkeitssysteme "Alerting" und "Orienting". In diesem Datensatz wurden die Systeme an zwei Tagen, jeweils morgens und abends getestet. 
 
 ```{r, echo=FALSE, results='hide', error=FALSE, warning=FALSE, message=FALSE}
