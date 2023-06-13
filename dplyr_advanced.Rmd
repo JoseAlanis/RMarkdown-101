@@ -1,0 +1,275 @@
+---
+title: "Datentransformation"
+subtitle: "Fortgeschrittene `dplyr`-Funktionen"
+author: "José C. García Alanis & Mareike Hülsemann"
+date: "`r format(Sys.time(), '%d. Juni, %Y')`"
+header-includes:
+    - \usepackage[T1]{fontenc}
+mainfont: SourceSansPro
+fontsize: 12pt
+output: pdf_document
+---
+
+```{r echo = FALSE}
+knitr::opts_chunk$set(echo = TRUE, dev="cairo_pdf")
+```
+
+# Inhalte dieser Übung
+
+- Logische Verknüpfungen für multiple Bedingungen
+- Transformation zwischen Long- und Wide-Format
+- Erweiterung und Zusammenfügen von Datensätzen
+
+
+
+
+# Logische Verknüpfungen für multiple Bedingungen
+
+## `ifelse`-Funktion
+Mit der `ifelse`-Funktion können wir in sehr sparsamer Schreibweise, einen `if`-`else`-Block ausführen. If-Else-Blöcke ermöglichen es, bestimmten Code nur dann auszuführen, wenn gewisse Voraussetzungen zutreffen. Falls diese nicht zu treffen, wird ein anderer Code ausgeführt.
+
+Wir schauen uns zunächst eine einfache If-Else-Abfrage und deren Ergebnis an:
+```{r}
+Alter <- 16
+if (Alter >=18){
+  party_einlass = TRUE
+} else {
+  party_einlass = FALSE
+}
+party_einlass
+```
+Die If-Else-Abfrage können wir mit der Funktion `ifelse` auf eine Zeile kürzen:
+```{r}
+Alter <- 16
+party_einlass <- ifelse(Alter >= 18, TRUE, FALSE)
+party_einlass
+```
+Wir sehen, dass wir mit der Kurzschreibweise dasselbe Ergebnis erzielen. Wir müssen uns für die `ifelse`-Funktion lediglich drei Dinge merken.
+
+1. Das erste Argument enthält immer die Bedingungsabfrage (Voraussetzungsprüfung), also eine logische Abfrage.
+2. Das zweite Argument gibt an, was passiert wenn die Bedingung zutrifft.
+3. Das dritte Argument gibt an, was passiert wenn die Bedingung *nicht* zutrifft.
+
+
+#### Übung
+Überlegen Sie sich ein sinnvolles Beispiel für die Datenauswertung im psychologischen Kontext, bei der Sie eine If-Else-Abfrage benötigen und schreiben Sie (Pseudo-) Code für dieses Beispiel. Schreiben Sie dabei sowohl Code für die klassische Variante als auch für die `ifelse`-Funktion.
+
+## `case_when`-Funktion
+
+Die `case_when`-Funktion ermöglicht es, die `ifelse`-Funktion in eine `dplyr`-Pipeline einzubinden. Außerdem können wir hier nicht nur zwei Fälle (`if` und `else`) definieren, sondern beliebig viele (`if`, `ifelse` und `else`). Mit der `case_when`-Funktion können beliebig viele if-Abfragen (`if` und `ifelse`s) gekoppelt werden.
+
+Wir schauen uns das anhand eines Beispieldatensatzes zum Ausprägungsgrad einer Depression an. Der Ausprägungsgrad wurde mit der neun Item umfassenden Depressionskala des Patient Health Questionnaires (PHQ) erfasst.
+
+```{r, error=FALSE, warning=FALSE, message=FALSE}
+# Benötigte Pakete
+library(tidyverse)
+
+# Beispieldatensatz
+depressionen <- data.frame(id = c("a5", "h9", "q1"),
+                           phq9 = c(7, 14, 20))
+head(depressionen)
+
+# Kategorisierung der Schwere der Depression anhand der Skalenwerte
+depressionen <- depressionen %>%
+  mutate(Schweregrad = case_when(
+    phq9 < 5 ~ "keine",
+    phq9 >= 5 & phq9 < 10 ~ "leicht",
+    phq9 >= 10 & phq9 < 15 ~ "mittel",
+    phq9 >= 15 & phq9 < 20 ~ "ausgeprägt",
+    phq9 >= 20 ~ "schwer"))
+
+head(depressionen)
+```
+
+#### Übung
+Schreiben Sie nun Ihr Beispiel aus der vorangegangenen Übung unter Verwendung der `case_when`-Funktion um.
+
+
+# Transformation zwischen Long- und Wide-Format
+
+Oft liegen Rohdaten in einem Format vor, das pro Versuchsperson eine Zeile bereithält und alle, für diese Person, erhobenen Daten in verschiedenen Spalten abspeichert. Dieses Format nennen wir "Wide-Datenformat". Im Falle von Messwiederholung haben wir dann z. B. zwei Spalten für denselben Fragebogenwert: eine Spalte für Messzeitpunkt 1 und eine weitere Spalte für Messzeitpunkt 2.  
+
+Wir folgen dem Lehrbuch von Maike Luhmann "R für Einsteiger" (2020) und betrachten den Datensatz `Minidaten_2.RData`. In diesem sind die Variablen `neuro_1`, `neuro_2`, `neuro_3` und `extra_1`, `extra_2`, `extra_3` enthalten. Es handelt sich um messwiederholte Daten, d. h. Neurotizismus (Variable `neuro`) und Extraversion (Variable `extra` wurden zu jeweils drei Messzeitpunkten erhoben. Wir erkennen die Messzeitpunkte an den Endungen (`_1`, `_2`, `_3`).
+
+Speichern Sie sich den Datensatz `Minidaten_2.RData` ab und lesen Sie ihn in R ein
+
+```{r}
+load("Minidaten 2.RData")
+```
+
+Das Wide-Datenformat hat zwei Nachteile:
+
+1. Viele Funktionen für die Analyse von messwiederholten Daten benötigen einen Datensatz, in dem es nur eine Spalte für jede abhängige Variable gibt und in dem pro Zeile eine Beobachtung steht.
+2. Alle Funktionen aus dem Paket `tidyverse` (dazu gehören auch die Pakete `dplyr` und `ggplot2`) basieren auf der Annahme, dass die Daten im Long-Format vorliegen.
+
+![](tidydata_2.png){width=400, height=400}
+<!-- Quelle für Bild; Literaturverzeichnis Luhmann -->
+
+Das Long-Format zeichnet sich dadurch aus, dass
+- für jede Variable  eine Spalte existiert,
+- für jede Beobachtung (z. B. Versuchspersonen oder Messzeitpunkte)  eine Zeile existiert und
+- für jeden Wert eine Spalte existiert.
+
+Unser Datensatz liegt im Wide-Format vor: Jede Zeile steht für eine andere Versuchsperson und die Spalten enthalten zum Teil dieselben Variablen, für die drei Messzeitpunkte.
+
+Das heißt, unsere Variablen enthalten nicht nur eine Information, sondern mehrere: Die Ausprägung (Neurotizismus oder Extraversion) und den Messzeitpunkt (1, 2 oder 3).
+
+## Datentransformation von Wide zu Long
+
+Wir wollen nun den vorliegenden Datensatz vom Wide-Format ins Long-Format transformieren. Dazu nutzen wir die Funktion `pivot_longer`. Schauen wir uns den Datensatz zunächst einmal an:
+
+```{r}
+daten2
+```
+
+### Schritt 1: Umstrukturierung ins Ultralong-Format
+
+Die Funktionen `pivot_longer`und `pivot_wider` gehören zu den Funktionen von `tidyr` und werden benutzt um Datensätze zu transformieren. Wir müssen also das Paket `tidyr` laden, um diese Funktionen nutzen zu können. Der Einfachheit halber laden wir einfach `tidyverse`, dass sowohl `tidyr` als auch `dplyr` und `ggplot2` beinhaltet.
+
+```{r, eval=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+```
+
+
+Die Funktion `pivot_longer` transformiert einen Datensatz im Wide-Format ins Long-Format, indem verschiedene Spalten zu einer einzigen Spalte zusammengefasst werden und die einzelenen Werte jeweils in eine eigene Zeile geschrieben werden.
+
+```{r}
+ultralang <- daten2 %>%
+  pivot_longer(cols = -c(id, wohnort), 
+               names_to = "varname", 
+               values_to = "wert")
+```
+
+Die Funktion `pivot_longer` benötigt drei Argumente. Mit `cols = -c(id, wohnort)` sorgen wir dafür, dass die Variablen `id` und `wohnort` von der Umwandlung ausgenommen werden und diese Information in jede Zeile des neuen Datensatzes `ultralang` geschrieben wird.
+
+Das Argument `names_to = "varname"` sorgt dafür, dass die ursprünglichen Variablennamen in einer eigenen Spalte abgespeichert werden. Wir benötigen diese noch um unseren Datensatz ins gewünschte Long-Format zu transformieren und um die Information, was die abgespeicherten Werte repräsentieren, nicht zu verlieren.
+
+Das Argument `values_to = "wert"` sorgt dafür, dass jeder unserer Werte in einer Spalte namens `wert` abgespeichert wird.
+
+Schauen wir uns das Ergebnis einmal an:
+```{r}
+ultralang
+```
+
+Unser neuer Datensatz `ultralang` hat nur noch 4 Variablen (im Gegensatz zu den ursprünglichen 8). Es gibt weiterhin die Variablen `id` und `wohnort` und die neuen Variablen `varname` und `wert`. Unsere ursprünglichen Variablen `id` und `wohnort` sind nicht messwiderholt und nehmen nun im neuen Datensatz nicht mehr nur eine Zeile ein, sondern werden über mehrere Zeilen wiederholt. Wenn wir uns die Daten anschauen, sehen wir, dass die erste Person nun sechs Zeilen erhält und die Informationen darin identisch sind. In der dritten Spalte stehen jetzt die ursprünglichen Spaltennamen unserer abhängigen Variablen. Die Werte einer Versuchsperson für Neurotizismus und Extraversion stehen nun nicht mehr in einer Zeile und sechs Spalten, sondern in sechs Zeilen und einer Spalte, die den Namen `wert` trägt. Wir haben nun also eine Spalte, die die Werte für zwei verschiedenen Variablen (`extra` und `neuro`) zu drei Messzeitpunkten enthält. 
+
+
+#### Übung 1
+Was passiert wenn Sie die Variable `wohnort` nicht ausschließen?
+
+#### Übung 2
+Was passiert wenn Sie `names_to = "Spaltenbenennung"` anstatt des ursprünglichen Codes nutzen?
+
+
+
+In unserem Datensastz `ultralang` sind in der dritten Spalte aber immer noch verschiedenen Informationen, nämlich zu Ausprägung und Messzeitpunkt, vermischt. Wir können die `pivot_longer` Funktion erweitern, und die Variablennamen auftrennen:
+
+```{r}
+ultralang <- daten2 %>%
+  pivot_longer(cols = -c(id, wohnort),
+               names_to = c("varname", "mzp"),
+               names_sep = "_",
+               values_to = "wert")
+```
+
+Nun sieht das Ergebnis so aus:
+```{r}
+ultralang
+```
+
+Unsere Daten enstprechen nun zwar den `tidy`-Vorgaben, sind aber noch immer nicht im gewünschten `long`-Format, denn in diesem soll jede Variable eine eigene Spalte bekommen. In unserem Datensatz stehen die zwei Variablen Neurotizismus und Extraversion aber in ein und derselben Spalte.
+
+
+### Schritt 2: Umstrukturierung ins Long-Format
+
+Wir wollen, dass unterschiedliche psychologische Merkmale jeweils ihre eigene Variable erhalten, also in verschiedenen Spalten auftauchen. Wir müssen unsere Ultralong-Daten also wieder etwas verbreitern. Dies schaffen wir mit der Funktion `pivot_wider`.
+
+```{r}
+lang <- ultralang %>%
+  pivot_wider(names_from = varname,
+              values_from = wert)
+```
+
+Mit dem Argument `names_from` sagen wir `R`, wo es die neuen Variablennamen findet. Mit `pivot_wider` erstellen wir also neue Variablen und bennenen diese so, wie es in der Spalte `varname` abgespeichert ist. Das Argument `values_from` legt fest, wo die Werte für die neuen Variablen zu finden sind. Das Ergebnis sieht folgendermaßen aus:
+
+```{r}
+lang
+```
+
+Nun hat unser Datensatz die richtige Struktur um zum Beispiel eine messwiederholte ANOVA berechnen zu können oder auch um sinnvolle Grafiken zu den Variablen Neurotizismus und Extraversion erstellen zu können.
+
+
+## Datentransformation von Long zu Wide
+
+Wir haben bereits gezeigt, wie man einen langen Datensatz wieder etwas breiter machen kann. Durch eine erneute Anwendung von `pivot_wider` können wir unseren Datensatz `lang` nun wieder ins Ausgangsformat, in ein Wide-Format, zurücktransformieren.
+
+```{r}
+breit <- lang %>%
+  pivot_wider(names_from = mzp,
+              values_from = -c(id, wohnort, mzp),
+              names_sep = ".")
+```
+
+Vergleichen Sie den Ausgangsdatensatz `daten2` und das Ergebnis unserer Transformation:
+
+```{r}
+breit
+```
+
+Das Argument `values_from` kann entweder alle messwiederholten Variablen enthalten oder wir können auflisten, welche Variablen von der Transformation ausgeschlossen werden sollen. Das `-`-Zeichen sorgt also, wie wir das auch schon von `select` kennen, zum Ausschluss der genannten Variablen.
+
+Wir wollen Die Datentransformation zwischen Wide- und Long-Format nun üben.
+
+
+#### Übung 3
+Transformieren Sie den folgenden Datensatz in das Long-Format. Erstellen Sie dafür zwei neue Spalten mit den Namen `monat` und `index`). Die Werte sollen in die Spalte `temp` geschrieben werden. Macht es einen Unterschied, ob Sie das Argument  `names_sep = "_"` oder `names_sep = "."` benutzen? 
+
+
+```{r}
+df_wide <- data.frame(
+  ort = c("Bonn", "Hamburg", "Mainz"),
+  temp_jan = c(3.0, 3.5, 3.4),
+  temp_feb = c(3.9, 4.4, 5.3),
+  temp_mar = c(6.6, 8.0, 9.7),
+  temp_apr = c(10.2, 12.3, 14.2),
+  temp_mai = c(14.3, 17.5, 19.0),
+  temp_jun = c(18.2, 19.9, 22.0))
+```
+
+```{r, echo=FALSE, results='hide'}
+df_long <- df_wide %>%
+  pivot_longer(cols = -c(ort),
+               names_to = c("index", "monat"),
+               names_sep = "_",
+               values_to = "temp")
+df_long
+```
+
+#### Übung 4
+Transformieren Sie den Datensatz `therapy.txt` in das Wide-Format. Beachten Sie, dass dieser Datensatz Tabstoppgetrennt abgespeichert ist. Finden Sie selbst heraus, welche Variablen dieser Datensatz enthält und ob diese messwiederholt sind oder nicht.
+
+```{r, echo=FALSE, results='hide', error=FALSE, warning=FALSE, message=FALSE}
+setwd("/home/mareike/Dokumente/lehre/R-Kurs 2/dplyr_advanced")
+therapy <- read_delim("therapy.txt", delim = "\t")
+therapy_wide <- therapy %>%
+  pivot_wider(names_from = c(scale, time),
+              values_from = value)
+```
+
+#### Übung 5 
+Transformieren Sie den Datensatz `reakionzeiten_genested.csv` in das Long-Format. Gehen Sie dabei Schritt für Schritt vor, so wie es in diesem Dokument erklärt wurde. In diesem Datensatz finden Sie simulierte Reaktionszeiten für den Attentional Network Test. Dieser erfasst unter anderem die Leistung derAufmerksamkeitssysteme "Alerting" und "Orienting". In diesem Datensatz wurden die Systeme an zwei Tagen, jeweils morgens und abends getestet. 
+
+```{r, echo=FALSE, results='hide', error=FALSE, warning=FALSE, message=FALSE}
+setwd("/home/mareike/Dokumente/lehre/R-Kurs 2/dplyr_advanced")
+rt <- read_csv("reakionzeiten_genested.csv")
+rt_ultralong <- rt %>%
+  pivot_longer(cols = -id,
+               names_to = c("scale","day","time"),
+               names_sep = "_",
+               values_to = "value")
+rt_long <- rt_ultralong %>%
+  pivot_wider(names_from = c(scale),
+              values_from = value)
+```
+
+# Erweiterung und Zusammenfügen von Datensätzen
