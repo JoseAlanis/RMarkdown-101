@@ -3,8 +3,8 @@ title: "Fortgeschrittene Datentransformation"
 author: "José C. García Alanis & Mareike Hülsemann"
 date: "`r format(Sys.time(), '%d. Juni, %Y')`"
 header-includes:
-- \usepackage[default]{sourcesanspro}
-- \usepackage[T1]{fontenc}
+    - \usepackage[default]{sourcesanspro}
+    - \usepackage[T1]{fontenc}
 mainfont: SourceSansPro
 fontsize: 12pt
 output: pdf_document
@@ -178,7 +178,7 @@ Das heißt, unsere Variablen enthalten nicht nur eine Information, sondern mehre
 fig_url <- 'https://raw.githubusercontent.com/allisonhorst/stats-illustrations/main/rstats-artwork/tidydata_2.jpg'
 if (!file.exists(fig_file <- 'tidydata.png'))
   download.file(fig_url, fig_file, mode = 'wb')
-knitr::include_graphics(if (identical(knitr:::pandoc_to(), 'html')) fig_url else fig_file)
+knitr::include_graphics(if (identical(knitr::pandoc_to(), 'html')) fig_url else fig_file)
 ```
 
 ## Datentransformation von `wide` zu `long`
