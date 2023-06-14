@@ -343,16 +343,16 @@ rt_long <- rt_ultralong %>%
 
 # Zusammenfügen von Datensätzen
 
-Sie kennen das bestimmt aus Ihrer Bachelorarbeit (oder von einem anderen Analyseprojekt), dass unterschiedliche Daten in unterschiedlichen Datein vorliegen. Häufig liegen verschiedene Angaben zu den Versuchspersonen (Alter, Abschluss, etc.) in einer Datei vor und die experimentellen Daten (Fragebögen, Reaktionszeiten, etc.) in anderen, separaten Dateien.
+Sie kennen das bestimmt aus Ihrer Bachelorarbeit (oder von einem anderen Analyseprojekt), dass unterschiedliche Daten in unterschiedlichen Dateien vorliegen. Häufig liegen verschiedene Angaben zu den Versuchspersonen (Alter, Abschluss, etc.) in einer Datei vor und die experimentellen Daten (Fragebögen, Reaktionszeiten, etc.) in anderen, separaten Dateien.
 
-Für unsere Analysen ist es dann häufig hilfreich, wenn diese Dateien kurzfristig "zusammengefügt" werden. Somit können wir Beziehungen zwischen beispielsweise Personenvariablen und Kennwerte aus einer Untersuchung aufdecken. Dafür ist es notwendig, dass in beiden Datensätzen ein **Persornenidentifier** (z.B. die *VPN-Nummer* oder `id`) vorhanden ist. Diese muss für jede Person einzigartig sein, sonst können wir nicht eindeutig Beobachtungen zu Personen zuordnen.
+Für unsere Analysen ist es dann häufig hilfreich, wenn diese Dateien kurzfristig "zusammengefügt" werden. Somit können wir Beziehungen zwischen beispielsweise Personenvariablen und Kennwerten aus einer Untersuchung aufdecken. Dafür ist es notwendig, dass in beiden Datensätzen ein **Persornenidentifier** (z.B. die *VPN-Nummer* oder `id`) vorhanden ist. Dieser muss für jede Person einzigartig sein, sonst können wir die Beobachtungen nicht eindeutig den Personen zuordnen.
 
-Glücklicherweise können wir Datensätze mit `dplyr` zusammenfügen. Diese Operation nennt man **join** (verbinden). Bei `dplyr` gibt es zwei verschiedene `joins`, die wir gerne heute anschauen wollen, *inner_join* und *outer_join* (wie z.B. `full_join`, `left_join` und `right_join`).
+Glücklicherweise können wir Datensätze mit `dplyr` zusammenfügen. Diese Operation nennt man **join** (verbinden). Bei `dplyr` gibt es zwei verschiedene `joins`, die wir gerne heute anschauen wollen, *inner_join* und *outer_join* (z.B. `full_join`, `left_join` und `right_join`).
 
 ## `joins` mit `dyplr`
 
 `dplyr` enthält die Funktion `inner_join()`. Die Funktion bekommt als Argumente zwei Datensätze (`x` und `y`) und den Persoenidentifier (`by`). Das Ergebnis eines `inner_join` enthält alle Spalten sowie alle Zeilen von `x` und `y`, für die es einen Match in beiden Datensätze gibt.
-Beobachtungen und IDs, die nicht in beiden Datensätzen vorkommen, tauchen nicht im Ergebnis eines `inner_join` auf (sie werden nicht als `NA` eingefügt).
+Beobachtungen und IDs, die nicht in beiden Datensätzen vorkommen, tauchen im Ergebnis eines `inner_join` nicht auf (sie werden nicht als `NA` eingefügt).
 Es ist daher immer Vorsicht angebracht.
 
 Als einfaches Beispiel verwenden wir hier eine Tabelle mit Daten über das Alter von zehn Personen und eine Tabelle mit ihren Wohnorten:
@@ -371,7 +371,7 @@ altersdaten <- data.frame(
 altersdaten
 ```
 
-und jetzt die `wohnortdaten`:
+Und jetzt die `wohnortdaten`:
 
 ```{r}
 # erstellen wir ersteimal die `wohnortdaten`
@@ -408,10 +408,10 @@ inner_join_daten <- inner_join(
 inner_join_daten
 ```
 
-Die `inner_join()` Funktion gibt uns ein Datensatz als Ergebnis.
+Die `inner_join()` Funktion gibt uns einen Datensatz als Ergebnis.
 In dem Datensatz befinden sich die Personen, die in beiden Datensätze einen Eintrag haben.
-Dagegen sind Person 7 und Person 8 nicht im "Ergebnis"-Datensatz **nicht** vorhanden.
-Das hat den Grund, dass Person 7 nur im ersten Datensatz vorkommt und Person 8 nur im zweiten. D.h. die Personen fliegen raus.
+Dagegen sind Person 7 und Person 8 im "Ergebnis"-Datensatz **nicht** vorhanden.
+Das hat den Grund, dass Person 7 nur im ersten Datensatz vorkommt und Person 8 nur im Zweiten. D.h. diese beiden Personen fliegen raus.
 
 ## `outer_join`
 
@@ -433,12 +433,12 @@ full_join_daten <- full_join(
 full_join_daten
 ```
 
-Wie sie sehen können, enthält dieser Datensatz alle Zeilen mit ihren IDs (auch die IDs, die nur in eines der Datensätze zu finden sind).
+Wie Sie sehen können, enthält dieser Datensatz alle Zeilen mit ihren IDs (auch die IDs, die nur in einem der Datensätze zu finden sind).
 
 ## Wrap-up
 
-`inner_join` und `full_join` werden häufig eingesetzt, um Datensätze zusammenzufügen. Es gibt aber auch weitere `joins`, die sicherlich für spezielle Arten des "Zusammenfügen" hilfreich sein können.
-Dazu zählen `left_join` und `right_join`. Diese werden wir heute nicht behandeln aber der folgende Link gibt sicherlich ein guter Überblick über diese Methoden:
+`inner_join` und `full_join` werden häufig eingesetzt, um Datensätze zusammenzufügen. Es gibt aber auch weitere `joins`, die sicherlich für spezielle Arten des "Zusammenfügens" hilfreich sein können.
+Dazu zählen `left_join` und `right_join`. Diese werden wir heute nicht behandeln aber der folgende Link gibt sicherlich einen guten Überblick über diese Methoden:
 
 https://www.phonetik.uni-muenchen.de/~jmh/lehre/basic_r/_book/joining-mit-dplyr.html
 
@@ -448,13 +448,13 @@ Außerdem haben wir diese in der Sitzung zu `dplyr` bereits besprochen.
 
 #### Übung 9
 
-Zuvor haben im Argument `by` im `inner_join` einfach der Name der ID-Variable schreiben müssen. Diese hatte im vorherigen Beispiel den gleichen Namen in beiden Datensätze.
+Zuvor haben wir im Argument `by` von `inner_join` einfach den Namen der ID-Variable schreiben müssen. Diese hatte im vorherigen Beispiel den gleichen Namen in beiden Datensätze.
 `inner_join` hat dann automatisch in beiden Datensätze geschaut, diese Variable gefunden und die Daten der Personen anhand ihrer ID zusammengefügt.
 
 Was machen wir allerdings, wenn die ID-Variable in den beiden Datensätzen unterschiedliche Namen hat? Glücklicherweise hat `inner_join` hierfür eine Lösung parat.
 Wir können das Argument `by` so verändern, dass ID-Variablen mit unterschiedlichen Namen berücksichtigt werden.
 
-Zum Beispiel: Wir verändern `altersdaten` so, dass die ID-Variable (`id`) nun `VP` heißt.
+Beispiel: Wir verändern `altersdaten` so, dass die ID-Variable (`id`) nun `VP` heißt.
 
 ```{r}
 altersdaten <- data.frame(
