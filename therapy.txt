@@ -1,0 +1,17 @@
+id	treatment	scale	time	value
+101	WLC	stai	pre	2
+101	WLC	stai	post	1.52
+101	WLC	staxi	pre	1.77
+101	WLC	staxi	post	1.4
+102	CBT	stai	pre	1.87
+102	CBT	stai	post	4.85
+102	CBT	staxi	pre	3.45
+102	CBT	staxi	post	3.57
+103	CBT	stai	pre	2.28
+103	CBT	stai	post	5.25
+103	CBT	staxi	pre	4.08
+103	CBT	staxi	post	4.32
+104	WLC	stai	pre	1.32
+104	WLC	stai	post	3.2
+104	WLC	staxi	pre	1.91
+104	WLC	staxi	post	1.84
