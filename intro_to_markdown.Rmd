@@ -65,10 +65,10 @@ install.packages("rmarkdown")
 > 3. Dann wählen Sie „R Markdown…“
 > - Alternativ könne sie das Ganze über das Datei-Fenster oben Links erledigen (Datei -> Neues Dokument -> R Markdown…)
 > 
-> Sie werden merken, dass R-Studio ein kleines Dialog-Fenster öffnet. Dort können Sie einen Name für das R Markdown Dokument und andere Einstellungen festlegen.
+> Sie werden merken, dass R-Studio ein kleines Dialog-Fenster öffnet. Dort können Sie einen Namen für das R Markdown Dokument und andere Einstellungen festlegen.
 > 
 > 1. Geben Sie unter Titel **Einführung in R Markdown** ein
-> 2. Geben Sie unter Autor Ihren Name an
+> 2. Geben Sie unter Autor Ihren Namen an
 > 3. Wählen Sie als Output-Format: **HTML**
 
 Für den Moment konzentrieren wir uns auf ein `.html`-Dokument, das später leicht in andere Dateitypen umgewandelt werden kann.
