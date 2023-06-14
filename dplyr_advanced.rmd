@@ -172,6 +172,15 @@ Unser Datensatz liegt im `wide`-Format vor: Jede Zeile steht für eine andere Ve
 
 Das heißt, unsere Variablen enthalten nicht nur eine Information, sondern mehrere: Die Ausprägung (Neurotizismus oder Extraversion) und den Messzeitpunkt (1, 2 oder 3).
 
+\newpage
+
+```{r echo = FALSE, out.width = '85%', fig.align = "center", fig.cap = "Illustrations from the Openscapes blog Tidy Data for reproducibility, efficiency,and collaboration by Julia Lowndes and Allison Horst, https://www.openscapes.org/blog/2020/10/12/tidy-data/"}
+fig_url <- 'https://raw.githubusercontent.com/allisonhorst/stats-illustrations/main/rstats-artwork/tidydata_2.jpg'
+if (!file.exists(fig_file <- 'tidydata.png'))
+  download.file(fig_url, fig_file, mode = 'wb')
+knitr::include_graphics(if (identical(knitr:::pandoc_to(), 'html')) fig_url else fig_file)
+```
+
 ## Datentransformation von `wide` zu `long`
 
 Wir wollen nun den vorliegenden Datensatz vom `wide`-Format ins `long`-Format transformieren. Dazu nutzen wir die Funktion `pivot_longer`. Schauen wir uns den Datensatz zunächst einmal an:
@@ -180,7 +189,7 @@ Wir wollen nun den vorliegenden Datensatz vom `wide`-Format ins `long`-Format tr
 daten2
 ```
 
-### Schritt 1: Umstrukturierung ins Ultralong-Format
+#### Schritt 1: Umstrukturierung ins Ultralong-Format
 
 Die Funktionen `pivot_longer`und `pivot_wider` gehören zu den Funktionen von `tidyr` und werden benutzt, um Datensätze zu transformieren. Wir müssen also das Paket `tidyr` laden, um diese Funktionen nutzen zu können (der Einfachheit halber können wir aber auch `tidyverse` laden, dass sowohl `tidyr` als auch `dplyr` und `ggplot2` beinhaltet).
 
@@ -204,17 +213,9 @@ Das Argument `names_to = "varname"` sorgt dafür, dass die ursprünglichen Varia
 Das Argument `values_to = "wert"` sorgt dafür, dass jeder unserer Werte in einer Spalte namens `wert` abgespeichert wird.
 
 Schauen wir uns das Ergebnis einmal an:
+
 ```{r}
 ultralang
-```
-
-
-<br>
-```{r echo = FALSE, out.width = '75%', fig.align = "center", fig.cap = 'Artwork by Allison Horst, https://allisonhorst.com/other-r-fun'}
-fig_url = 'https://raw.githubusercontent.com/allisonhorst/stats-illustrations/main/rstats-artwork/tidydata_2.jpg'
-if (!file.exists(fig_file <- 'tidydata.png'))
-  download.file(fig_url, fig_file, mode = 'wb')
-knitr::include_graphics(if (identical(knitr:::pandoc_to(), 'html')) fig_url else fig_file)
 ```
 
 Unser neuer Datensatz `ultralang` hat nur noch 4 Variablen (im Gegensatz zu den ursprünglichen 8). Es gibt weiterhin die Variablen `id` und `wohnort` und die neuen Variablen `varname` und `wert`. Unsere ursprünglichen Variablen `id` und `wohnort` sind nicht messwiderholt und nehmen nun im neuen Datensatz nicht mehr nur eine Zeile ein, sondern werden über mehrere Zeilen wiederholt. Wenn wir uns die Daten anschauen, sehen wir, dass die erste Person nun sechs Zeilen erhält und die Informationen darin identisch sind. In der dritten Spalte stehen jetzt die ursprünglichen Spaltennamen unserer abhängigen Variablen. Die Werte einer Versuchsperson für Neurotizismus und Extraversion stehen nun nicht mehr in einer Zeile und sechs Spalten, sondern in sechs Zeilen und einer Spalte, die den Namen `wert` trägt. Wir haben nun also eine Spalte, die die Werte für zwei verschiedenen Variablen (`extra` und `neuro`) zu drei Messzeitpunkten enthält.
